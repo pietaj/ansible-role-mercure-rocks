@@ -70,13 +70,29 @@
     mode: 0755
   when: not mercure_rocks_installed.stat.exists
 
-- name: Install mercure configuration file
-  template:
-    src: mercure.yaml.j2
-    dest: /etc/mercure/mercure.yaml
+- name: Create Mercure data directory
+  file:
+    path: "/var/lib/mercure"
+    state: directory
     owner: "{{ mercure_rocks_user }}"
     group: "{{ mercure_rocks_user }}"
-    mode: 0755
+    mode: '0755'
+
+- name: Create environment file
+  template:
+    src: mercure_env.j2
+    dest: "/etc/mercure/.env"
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    mode: '0600'
+
+- name: Install mercure configuration file
+  template:
+    src: mercure_caddy.j2
+    dest: /etc/mercure/Caddyfile
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    mode: 0644
   notify: restart mercure.rocks
 
 - name: Install mercure installed version file

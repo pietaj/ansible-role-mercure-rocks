@@ -10,7 +10,9 @@ User={{ mercure_rocks_user }}
 Group={{ mercure_rocks_user }}
 UMask=007
 
-ExecStart=/usr/bin/mercure
+ExecStart=/usr/bin/mercure run --config /etc/mercure/Caddyfile
+EnvironmentFile=/etc/mercure/.env
+WorkingDirectory=/var/lib/mercure/
 Restart=on-failure
 
 [Install]

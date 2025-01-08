@@ -1,0 +1,14 @@
+{
+    http_port 3000
+    auto_https off
+    admin off
+}
+
+http://localhost:3000 {
+   mercure {
+       publisher_jwt "{{ mercure_publisher_key | default('!ChangeThisMercureHubJWTSecretKey!') }}"
+       subscriber_jwt "{{ mercure_subscriber_key | default('!ChangeThisMercureHubJWTSecretKey!') }}"
+       storage /var/lib/mercure/bolt.db
+   }
+  respond "Not Found" 404
+}
